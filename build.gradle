@@ -1,0 +1,53 @@
+plugins {
+    id 'java'
+    id 'idea'
+}
+
+group 'com.github.scormaq'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+
+    compile "org.apache.logging.log4j:log4j-slf4j-impl:2.11.1"
+    compile "org.apache.logging.log4j:log4j-core:2.11.1"
+
+    compile "io.cucumber:cucumber-junit:4.2.0"
+    compile "io.cucumber:cucumber-java:4.2.0"
+
+    testCompile "junit:junit:4.12"
+}
+
+task cucumberTestsPrettyLogs(type: JavaExec) {
+    systemProperty "LOG4J2_APPENDER", "CL4J2PA"
+    systemProperty "log4j.skipJansi", "false"
+
+    ignoreExitValue = true
+    classpath = sourceSets.main.runtimeClasspath + sourceSets.test.runtimeClasspath
+    main = "cucumber.api.cli.Main"
+    args = [
+            "--plugin", "com.github.scormaq.PrettyLogFormatter",
+            "--threads", "3",
+            "--glue", "com.github.scormaq.cucumber",
+            "src/test/resources/features"]
+}
+
+task cucumberTestsUsual(type: JavaExec) {
+    systemProperty "LOG4J2_APPENDER", "STDOUT"
+    systemProperty "log4j.skipJansi", "false"
+
+    ignoreExitValue = true
+    classpath = sourceSets.main.runtimeClasspath + sourceSets.test.runtimeClasspath
+    main = "cucumber.api.cli.Main"
+    args = [
+            "--plugin", "com.github.scormaq.PrettyFormatter",
+            "--threads", "3",
+            "--glue", "com.github.scormaq.cucumber",
+            "src/test/resources/features"]
+}

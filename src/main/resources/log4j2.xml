@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration strict="true" packages="com.github.scormaq">
+  <Appenders>
+    <Console name="STDOUT">
+      <PatternLayout
+        pattern="%highlight{${sys:logIndent:-}%d{HH:mm:ss} [%t] %-5level: %msg%n%throwable}{ERROR=Bright Red, WARN=Bright Yellow, INFO=Bright Cyan, DEBUG=Bright Green, TRACE=White}"/>
+    </Console>
+    <CucumberLog4j2ParallelAppender name="CL4J2PA">
+      <PatternLayout
+        pattern="      %highlight{${sys:logIndent:-}%d{HH:mm:ss} [%t] %-5level: %msg%n%throwable}{ERROR=Bright Red, WARN=Bright Yellow, INFO=Bright Cyan, DEBUG=Bright Green, TRACE=White}"/>
+    </CucumberLog4j2ParallelAppender>
+  </Appenders>
+  <Loggers>
+    <Logger name="com.github.scormaq" level="DEBUG"/>
+    <Root level="DEBUG">
+      <AppenderRef ref="${sys:LOG4J2_APPENDER:-STDOUT}"/>
+    </Root>
+  </Loggers>
+</Configuration>
